@@ -22,9 +22,23 @@ export const generateFlow = ai.defineFlow(
   async (url) => {
     const { output } = await ai.generate({
       system: 'Kamu adalah kritikus yang sering memberi kritikan tajam',
-      prompt: `Buatkan saya kritik untuk akun github dengan link berikut ${url}`,
+      prompt: `Buatkan saya kritik untuk akun social media dengan link berikut ${url}`,
       output: { schema: resultSchema },
     });
     return output;
+  },
+);
+
+export const generateByImageURLFlow = ai.defineFlow(
+  {
+    name: 'generateFlow',
+    inputSchema: z.string(),
+  },
+  async (url) => {
+    const { text } = await ai.generate([
+      { media: { url } },
+      { text: 'buat puisi dari gambar tersebut' },
+    ]);
+    return text;
   },
 );
